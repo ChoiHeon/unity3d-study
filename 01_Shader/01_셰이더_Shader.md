@@ -76,6 +76,7 @@ SubShader
     Tags { "RenderType"="Opaque" }
     LOD 200 // Level of Detail
             // 쉐이더의 지원 레벨을 조정한다.
+        	// LOD를 기준으로 적용할 SubShader를 선택
             // 예) SubShader {LOD 200}, SubShader {LOD 100}이 있을 경우
             // maximumLOD를 지정하지 않을 경우
             // 디바이스가 지원하는 최대 레벨을 기준으로 SubShader가 적용된다.
@@ -93,14 +94,13 @@ SubShader
             // Parallax = 500
             // Parallax Specular = 600
 
-    CGPROGRAMall light types // 지금부터 CG코드를 시작
+    CGPROGRAM // 지금부터 CG코드를 시작
 
-    // #pragma는 스니핏(snippet)으로 일종의 설정
-    #pragma surface surf Standard fullforwardshadows // Standard lighting model & 
-    												 // enable shadows on all light types
+    // #pragma는 스니핏(snippet)으로 일종의 설정을 의미
+    #pragma surface surf Standard fullforwardshadows // Surface 셰이더에서 어떤 기능을 사용하겠다고 지정
     #pragma target 3.0 // 셰이더 3.0 버전으로 컴파일
 
-    sampler2D _MainTex;
+    sampler2D _MainTex; // 프로퍼티와 연동할 변수, 변수명이 같아야 ㅎ
 	
     // 엔진으로부터 받아야 할 데이터들
     struct Input
@@ -139,13 +139,6 @@ SubShader
     ENDCG // CG코드 종료
 }
 ```
-### SurfaceOutputStandard
-
-* 류니티에 내장된 구조체입니다.
-* 
-
-
-
 ### Example - Surface Shader
 
 1. 유니티 창에서 Assets > Create > Shader > Standard Surface Shader를 눌러서 셰이더 파일을 생성합니다.
@@ -167,6 +160,17 @@ SubShader
 
    * 프로퍼티는 ***변수명 (프로퍼티 표시명, 프로퍼티 타입) = 초기값***  형식으로 작성할 수 있습니다.
    * 만약 프로퍼티 타입이 int여도 실제 inspector 창에선 실수를 입력할 수 있습니다.
+
+> 프로퍼티의 타입은 다음과 같이 입력할 수 있습니다.
+>
+> 1. Float - 실수형
+> 2. Range - Float와 같지만, 범위를 지정 가능
+> 3. Int - 정수형
+> 4. Color - Float 형이 4개가 결합된, RGBA 채널 값을 가질 수 있음
+> 5. Vector - Float 형이 4개가 결합된, XYZW 좌표 값을 가질 수 있음
+> 6. 2D - 2D 텍스쳐
+> 7. Rect - 2D에 속하면서 2의 배수가 아닌 텍스쳐
+> 8. 3D - 3D 텍스쳐
 
 5. `SubShader`를 추가합니다.
 
